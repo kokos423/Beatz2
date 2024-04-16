@@ -10,7 +10,7 @@ meni = '<ul class="nav navbar-nav"><li class="nav-item"><a href="index.html" cla
 meni += "</ul>";
 
 
-//document.querySelector("#navbarNav").innerHTML = meni;
+document.querySelector("#navbarNav").innerHTML = meni;
 
 /*$(document).ready(function(){
     $.ajax({
