@@ -1,0 +1,15 @@
+[
+    {
+        "id": 1,
+        "naziv": "Wire"
+    },
+    {
+        "id": 2,
+        "naziv": "Press"
+    },
+    {
+        "id": 3,
+        "naziv": "Woodwind"
+    }
+
+]

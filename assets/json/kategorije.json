@@ -1,0 +1,22 @@
+[
+    {
+        "id": 1,
+        "naziv": "Guitar"
+    },
+    {
+        "id": 2,
+        "naziv": "Bass"
+    },
+    {
+        "id": 3,
+        "naziv": "Synthesizer"
+    },
+    {
+        "id": 4,
+        "naziv": "Trombone"
+    },
+    {
+        "id": 5,
+        "naziv": "French Horn"
+    }
+]

@@ -1,0 +1,224 @@
+[
+    {
+        "id": 1,
+    "naziv": "First Act Guitar",
+        "kategorija": 1,
+        "tip" : 1,
+    "zvezdica": 0,
+    "boja": "Brown",
+    "manufaktura": {
+        "brend": "First Act",
+        "godina": "2013"
+    },
+    "cena" : {
+        "nova": 0,
+        "stara" : 3500
+    },
+    "slika" : {
+        "src" : "firstactguitar1.jpg",
+        "alt" : "firstact1"
+    }
+    },
+
+    {
+        "id": 2,
+        "naziv": "First Act Guitar - Premium",
+            "kategorija": 1,
+            "tip" : 1,
+        "zvezdica": 0,
+        "boja": "White",
+        "manufaktura": {
+            "brend": "First Act",
+            "godina": "2015"
+        },
+        "cena" : {
+            "nova": 0,
+            "stara" : 4200
+        },
+        "slika" : {
+            "src" : "firstactguitar2.jpg",
+            "alt" : "firstact2"
+        }
+    },
+
+    {
+        "id": 3,
+        "naziv": "Shecter White Banshee",
+            "kategorija": 1,
+            "tip" : 1,
+        "zvezdica": 1,
+        "boja": "White",
+        "manufaktura": {
+            "brend": "Shecter",
+            "godina": "2013"
+        },
+        "cena" : {
+            "nova": 5740,
+            "stara" : 6800
+        },
+        "slika" : {
+            "src" : "shecter1.jpg",
+            "alt" : "shecter1"
+        }
+    },
+    {
+        "id": 4,
+        "naziv": "Shecter Wooden Onyx",
+            "kategorija": 1,
+            "tip" : 1,
+        "zvezdica": 0,
+        "boja": "Brown",
+        "manufaktura": {
+            "brend": "Shecter",
+            "godina": "2017"
+        },
+        "cena" : {
+            "nova": 5320,
+            "stara" : 7000
+        },        
+        "slika" : {
+            "src" : "shecter2.jpg",
+            "alt" : "shecter2"
+        }
+    },
+    {
+        "id": 5,
+        "naziv": "Shecter Wooden Thunder",
+            "kategorija": 2,
+            "tip" : 1,
+        "zvezdica": 0,
+        "boja": "Brown",
+        "manufaktura": {
+            "brend": "Shecter",
+            "godina": "2015"
+        },
+        "cena" : {
+            "nova": 0,
+            "stara" : 6430
+        },
+        "slika" : {
+            "src" : "shecterb1.jpg",
+            "alt" : "shecterb1"
+        }
+    },
+    {
+        "id": 6,
+        "naziv": "Yamaha Blue Tone",
+            "kategorija": 2,
+            "tip" : 1,
+        "zvezdica": 0,
+        "boja": "Blue",
+        "manufaktura": {
+            "brend": "Yamaha",
+            "godina": "2016"
+        },
+        "cena" : {
+            "nova": 0,
+            "stara" : 7530
+        },
+        "slika" : {
+            "src" : "yamahab1.jpg",
+            "alt" : "yamahab1"
+        }
+    },
+    {
+        "id": 7,
+        "naziv": "Yamaha Blue Max",
+            "kategorija": 3,
+            "tip" : 2,
+        "zvezdica": 1,
+        "boja": "Blue",
+        "manufaktura": {
+            "brend": "Yamaha",
+            "godina": "2013"
+        },
+        "cena" : {
+            "nova": 4930,
+            "stara" : 6430
+        },
+        "slika" : {
+            "src" : "yamahasyn1.jpg",
+            "alt" : "yamahasyn1"
+        }
+    },
+    {
+        "id": 8,
+        "naziv": "Roland MX-730",
+            "kategorija": 3,
+            "tip" : 2,
+        "zvezdica": 1,
+        "boja": "Black",
+        "manufaktura": {
+            "brend": "Roland",
+            "godina": "2015"
+        },
+        "cena" : {
+            "nova": 5320,
+            "stara" : 6900
+        },
+        "slika" : {
+            "src" : "rolandmx1.jpg",
+            "alt" : "rolandmx1"
+        }
+    },
+    {
+        "id": 9,
+        "naziv": "Yamaha Y-84F Trumpet",
+        "kategorija": 4,
+        "tip" : 3,
+        "zvezdica": 0,
+        "boja": "Gold",
+        "manufaktura": {
+            "brend": "Yamaha",
+            "godina": "2018"
+        },
+        "cena" : {
+            "nova": 0,
+            "stara" : 9350
+        },
+        "slika" : {
+            "src" : "yamahatr1.jpg",
+            "alt" : "yamahatr1"
+        }
+    },
+    {
+        "id": 10,
+        "naziv": "Yamaha N-64 Horn",
+        "kategorija": 5,
+        "tip" : 3,
+        "zvezdica": 1,
+        "boja": "Gold",
+        "manufaktura": {
+            "brend": "Yamaha",
+            "godina": "2016"
+        },
+        "cena" : {
+            "nova": 8295,
+            "stara" : 10400
+        },
+        "slika" : {
+            "src" : "yamahahorn.jpg",
+            "alt" : "yamahahorn"
+        }
+    },
+    {
+        "id": 11,
+        "naziv": "Eastman Student's Trombone",
+        "kategorija": 5,
+        "tip" : 4,
+        "zvezdica": 0,
+        "boja": "Silver",
+        "manufaktura": {
+            "brend": "Eastman",
+            "godina": "2014"
+        },
+        "cena" : {
+            "nova": 0,
+            "stara" : 7400
+        },
+        "slika" : {
+            "src" : "eastmantr1.jpg",
+            "alt" : "eastmantr1"
+        }
+    }
+]

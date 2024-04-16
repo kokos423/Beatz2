@@ -1,0 +1,26 @@
+*{
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+ul{
+    list-style-type: none;
+}
+
+a{
+    text-decoration: none;
+}
+
+header{
+    background-color: #021114;
+}
+
+header ul li a {
+    color: lime;
+}
+
+body{
+    background-image: url("/assets/slike/concert.jpg");
+    background-repeat: no-repeat;
+}
