@@ -6,6 +6,7 @@ var KATEGORIJE;
 
 window.onload = function () {
   AsyncGalerija();
+  webpaging(INSTRUMENTI, 1);
   /*$(document).on("click", "#red", function() {
       KonstrukcijaInstrumenata(INSTRUMENTI, "#galerija")
   })*/
@@ -123,7 +124,7 @@ function KonstrukcijaInstrumenata(instrumenti, kategorije, tipovi, imediva) {
         ispis += "<div class=\"row red flex-row w-100 justify-content-evenly\">";
       }
 
-      ispis += "<div data-id=\"".concat(inst.id, "\" class=\"card col-3 border-0\">\n        <img src=\"assets/slike/produkti/").concat(inst.slika.src, "\" class=\"card-img-top\" alt=\"").concat(inst.slika.alt, "\">\n        <div class=\"card-body\">\n          <h5 class=\"card-title\">").concat(inst.naziv, "</h5>\n          <p class=\"card-text\">\n          ").concat(inst.zvezdica == 0 ? inst.cena.stara + "icon" : inst.cena.nova, "\n            <br/>\n            ").concat(ProveraTipaKategorije(inst.kategorija, kategorije), "\n            <br/>\n            ").concat(ProveraTipaKategorije(inst.tip, tipovi), "</p>\n          <input type=\"button\" data-id=\"").concat(inst.id, "\" class=\"fav btn btn-primary\" value=\"Add in Cart\">\n        </div>\n      </div>");
+      ispis += "<div data-id=\"".concat(inst.id, "\" class=\"card col-lg-4 col-md-6 col-12 border-0\">\n        <img src=\"assets/slike/produkti/").concat(inst.slika.src, "\" class=\"card-img-top\" alt=\"").concat(inst.slika.alt, "\">\n        <div class=\"card-body\">\n          <h5 class=\"card-title\">").concat(inst.naziv, "</h5>\n          <p class=\"card-text\">\n          ").concat(inst.zvezdica == 0 ? inst.cena.stara + "icon" : inst.cena.nova, "\n            <br/>\n            ").concat(ProveraTipaKategorije(inst.kategorija, kategorije), "\n            <br/>\n            ").concat(ProveraTipaKategorije(inst.tip, tipovi), "</p>\n          <input type=\"button\" data-id=\"").concat(inst.id, "\" class=\"fav btn btn-primary\" value=\"Add in Cart\">\n        </div>\n      </div>");
       brojacred++;
 
       if (brojacred % 3 == 0) {
@@ -338,4 +339,33 @@ rangepodaci();
 function promenacene(vrednost) {
   var min = document.querySelector("#minp");
   min.textContent = vrednost;
+}
+
+var perpage = 6;
+
+function webpaging(instrumenti, currentpage) {
+  var niz = Array.from(instrumenti).slice((currentpage - 1) * perpage, perpage * currentpage);
+  getNavPages(niz);
+}
+
+function getNavPages(niz) {
+  var total = totalpages(niz);
+  var ispis = "";
+
+  for (var i = 0; i < total; i++) {
+    ispis += "<li class=\"page-item\"><a data-page=\"".concat(i + 1, "\" class=\"page-link\" href=\"#\">").concat(i + 1, "</a></li>");
+  }
+
+  document.querySelector("#pagination").innerHTML = ispis;
+  $(document).on("click", ".page-link", function () {
+    var strana = $(this).data("page");
+    webpaging(niz, strana);
+    $(this).css({
+      "color": "black"
+    });
+  });
+}
+
+function total(niz) {
+  return Math.ceil(niz.length / perpage);
 }

@@ -4,16 +4,18 @@ let KATEGORIJE;
 
 window.onload = () =>  {
     AsyncGalerija();
+
+    webpaging(INSTRUMENTI, 1);
     /*$(document).on("click", "#red", function() {
         KonstrukcijaInstrumenata(INSTRUMENTI, "#galerija")
     })*/ 
 
     $(document).on("click", ".tip", function() {
-        KonstrukcijaInstrumenata(INSTRUMENTI, KATEGORIJE, TIPOVI, "#galerija")
+        KonstrukcijaInstrumenata(INSTRUMENTI, KATEGORIJE, TIPOVI, "#galerija");
     })
 
     $(document).on("click", ".kategorije", function() {
-        KonstrukcijaInstrumenata(INSTRUMENTI, KATEGORIJE, TIPOVI, "#galerija")
+        KonstrukcijaInstrumenata(INSTRUMENTI, KATEGORIJE, TIPOVI, "#galerija");
     })
 
     /*$(document).on("click", ".sort", function() {
@@ -42,6 +44,8 @@ window.onload = () =>  {
     $(document).on("input", "#cena", function(){
         promenacene(this.value);
     })
+
+
 }
 
 function postaviULocalStorage(korpa, produkt){
@@ -88,7 +92,7 @@ function KonstrukcijaInstrumenata(instrumenti, kategorije, tipovi, imediva){
         if(brojacred%3 == 0){
             ispis += `<div class="row red flex-row w-100 justify-content-evenly">`
         }
-        ispis += `<div data-id="${inst.id}" class="card col-3 border-0">
+        ispis += `<div data-id="${inst.id}" class="card col-lg-4 col-md-6 col-12 border-0">
         <img src="assets/slike/produkti/${inst.slika.src}" class="card-img-top" alt="${inst.slika.alt}">
         <div class="card-body">
           <h5 class="card-title">${inst.naziv}</h5>
@@ -252,4 +256,34 @@ function promenacene(vrednost){
 
     min.textContent = vrednost;
 
+}
+
+const perpage = 6;
+
+function webpaging(instrumenti, currentpage){
+    let niz = Array.from(instrumenti).slice((currentpage-1)*perpage, perpage*currentpage);
+    getNavPages(niz);
+}
+
+function getNavPages(niz){
+    let total = totalpages(niz);
+
+    let ispis = "";
+
+    for(let i=0; i<total; i++){
+        ispis += `<li class="page-item"><a data-page="${i+1}" class="page-link" href="#">${i+1}</a></li>`
+    }
+
+    document.querySelector("#pagination").innerHTML = ispis;
+    $(document).on("click", ".page-link", function(){
+        let strana = $(this).data("page");
+        webpaging(niz, strana);
+        $(this).css({
+            "color": "black"
+        })
+    });
+}
+
+function total(niz){
+    return Math.ceil(niz.length/perpage);
 }

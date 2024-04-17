@@ -6,14 +6,28 @@
     </head>
 
     <body>
-        <div class="w-100">
-            <a href="korpa.html">Korpa</a>
-        </div>
+      <header id="glavniheader" class="w-100">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light w-100 px-3">
+          <a class="navbar-brand" href="index.html">
+            <img src="assets/slike/logo.png" alt="Bootstrap" class="w-75 h-75">
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav" id="headerlista">
+            </ul>
+          </div>
+        </nav>
+      </header>
         <div id="produktiprikaz">
             <div class="container-fluid">
-                <div class="row" id="search"></div>
+              <div class="row d-flex w-100" id="search">
+                <button type="submit" class="col-2">Search</button>
+                <input type="text" name="instrumentsearch" id="instrumentsearch" class="col-10">
+              </div>
                 <div class="row w-100">
-                    <div id="filterpodaci" class="col-3 d-flex flex-column">
+                    <div id="filterpodaci" class="col-2 d-flex flex-column px-0">
                         <div class="accordion accordion-flush" id="accordionFlushExample">
                             <div class="accordion-item">
                               <h2 class="accordion-header" id="flush-headingOne">
@@ -68,12 +82,18 @@
                           </div>
                     </div>
                         
-                    <div id="galerija" class="d-flex flex-column w-100 col-9">
+                    <div id="galerija" class="d-flex flex-column col-10">
                         
                     </div>
                 </div>
             </div>
+            
         </div>
+        <nav aria-label="Page navigation example">
+          <ul class="pagination" id="pagination">
+           
+          </ul>
+        </nav>
         <input type="submit" value="Prikaz Korpe" id="korpatoggle">
         <div id="korpaprikaz">
 
@@ -82,5 +102,6 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
         <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
         <script src="assets/javascript/produkti.js"></script>
+        <script src="assets/javascript/main.js"></script>
     </body>
 </html>

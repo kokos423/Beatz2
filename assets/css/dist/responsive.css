@@ -1,0 +1,14 @@
+@media only screen and (max-width: 1025px) {
+  #glavniheader ul li {
+    font-size: 20px !important;
+  }
+  #introtext h1 {
+    font-size: 47px !important;
+  }
+  #akcija h2 {
+    font-size: 23px !important;
+  }
+  #akcija h3 {
+    font-size: 21px !important;
+  }
+}

@@ -9,56 +9,60 @@ ul {
 a {
   text-decoration: none;
 }
-#glavniheader {
-  background-color: #021114;
+#glavniheader .navbar {
+  background-color: #141414 !important;
+}
+#glavniheader .navbar #headerlista {
+  justify-content: end !important;
+}
+#glavniheader ul li {
+  font-size: 22px;
 }
 #glavniheader ul li a {
-  color: lime;
+  color: #3ad67e;
+}
+#navbarOffcanvasLg {
+  background-color: #141414 !important;
+}
+#intro {
+  position: relative;
+  height: 800px;
+  background-image: url("/assets/slike/intro.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+#intro #introtext {
+  position: absolute;
+  text-align: center;
+}
+#intro #introtext h1 {
+  color: white;
+  font-size: 55px;
+  font-weight: bold;
 }
 body {
   background-image: url("/assets/slike/concert.jpg");
   background-repeat: no-repeat;
   background-size: cover;
 }
-#indexcarousel {
-  height: 850px;
-}
-#indexcarousel #carousel-inner {
-  width: 100%;
-  height: 100%;
-}
-#indexcarousel .carousel-item img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
 #akcija {
   background-color: #debe1f;
 }
-* {
-  margin: 0px;
-  padding: 0px;
+#akcija h2 {
+  font-size: 36px;
 }
-.artikal {
-  width: 30%;
-  height: 200px;
-  /*float: left;*/
-  background-color: #e2e2e2;
-  margin: 1%;
+#akcija h3 {
+  font-size: 29px;
 }
-.naslov {
-  font-size: 26px;
-  color: red;
-  margin: 0 auto;
-  text-align: center;
+#akcija h3 a {
+  color: #141414;
 }
-.slika {
-  height: 50%;
-  margin: 0 auto;
-  display: block;
+#galerija {
+  background-color: white;
 }
 .test {
-  color: greenyellow;
+  color: #3ad67e;
 }
 .accordion-button:not(.collapsed)::after {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
@@ -85,7 +89,7 @@ body {
   appearance: none;
   height: 15px;
   width: 15px;
-  background-color: greenyellow;
+  background-color: #3ad67e;
   border-radius: 3px;
   bottom: 0px;
   margin: 0;
@@ -105,13 +109,46 @@ body {
   background: #141414;
   outline: none;
   border-radius: 20px;
-  border: 1px solid greenyellow;
+  border: 1px solid #3ad67e;
 }
 #cena::-webkit-slider-thumb {
   appearance: none;
   width: 14px;
   height: 14px;
   border-radius: 75%;
-  background: greenyellow;
+  background: #3ad67e;
   cursor: pointer;
+}
+footer {
+  background-color: #141414;
+}
+footer ul li {
+  font-size: 22px;
+}
+footer a {
+  color: #3ad67e;
+}
+#produktiprikaz {
+  padding: 0px !important;
+}
+#produktiprikaz .container-fluid {
+  padding: 0px !important;
+}
+#produktiprikaz .container-fluid .row {
+  width: 100% !important;
+}
+#produktiprikaz #search {
+  height: 55px;
+  background-color: #141414 !important;
+  border: 1px solid #3ad67e;
+}
+#produktiprikaz #search button {
+  background-color: #3ad67e;
+  border: none;
+  height: 100% !important;
+  font-size: 20px;
+}
+#produktiprikaz #search input[type="text"] {
+  height: 100%;
+  border: none;
 }
