@@ -1,14 +1,10 @@
 let INSTRUMENTI;
 let TIPOVI;
 let KATEGORIJE;
+const ITEMS_PER_PAGE = 6;
 
 window.onload = () =>  {
     AsyncGalerija();
-
-    webpaging(INSTRUMENTI, 1);
-    /*$(document).on("click", "#red", function() {
-        KonstrukcijaInstrumenata(INSTRUMENTI, "#galerija")
-    })*/ 
 
     $(document).on("click", ".tip", function() {
         KonstrukcijaInstrumenata(INSTRUMENTI, KATEGORIJE, TIPOVI, "#galerija");
@@ -18,19 +14,22 @@ window.onload = () =>  {
         KonstrukcijaInstrumenata(INSTRUMENTI, KATEGORIJE, TIPOVI, "#galerija");
     })
 
+    $(document).on("click", "#buttonsearch", function() {
+        KonstrukcijaInstrumenata(INSTRUMENTI, KATEGORIJE, TIPOVI, "#galerija");
+    })
+
     /*$(document).on("click", ".sort", function() {
         KonstrukcijaInstrumenata(INSTRUMENTI, KATEGORIJE, TIPOVI, "#galerija")
     })*/
 
+    $(document).on("click", ".page-link", function(){
+        let pageNumber = this.innerHTML;
+        PagPrikaz(pageNumber)
+    })
+
     $(document).on("click", ".fav", function(){
-        dodajUListu($(this).data("id"));
+        dodajuKorpu($(this).data("id"));
     })
-
-    $(document).on("click", "#test", function(){
-        IzbaciIzListe();
-    })
-
-    localStorage.setItem("korpa", 5);
 
 
     $(document).on("click", "#korpatoggle", function(){
@@ -41,9 +40,6 @@ window.onload = () =>  {
         $("#prikazkorpe").css("display");
     })*/
 
-    $(document).on("input", "#cena", function(){
-        promenacene(this.value);
-    })
 
 
 }
@@ -68,7 +64,6 @@ function KonstrukcijaKategorijeTipova(kategorije, imediva, imeklase){
         `
     }
    
-
     $(imediva).html(ispis);
 }
 
@@ -86,19 +81,29 @@ function KonstrukcijaInstrumenata(instrumenti, kategorije, tipovi, imediva){
 
     instrumenti = Filter(instrumenti, ".tip", 'tip');
     instrumenti = Filter(instrumenti, ".kategorije", 'kategorija');
+    instrumenti = tekstFilter(instrumenti, "#instrumentsearch");
+    //instrumenti = cenaFilter(instrumenti, "#cena");
+
     //instrumenti = Sort(instrumenti, ".sort");
     
+    let pageNumber = 1;
+    let pageQuota = 0;
+
     for(let inst of instrumenti){
-        if(brojacred%3 == 0){
+        /*if(brojacred%3 == 0){
             ispis += `<div class="row red flex-row w-100 justify-content-evenly">`
+        }*/
+        if(pageQuota === ITEMS_PER_PAGE){
+            pageNumber++;
+            pageQuota=0;
         }
-        ispis += `<div data-id="${inst.id}" class="card col-lg-4 col-md-6 col-12 border-0">
+        ispis += `<div data-id="${inst.id}" class="card instrument col-lg-3 col-md-6 col-12 border-0 strana-${pageNumber}">
         <img src="assets/slike/produkti/${inst.slika.src}" class="card-img-top" alt="${inst.slika.alt}">
         <div class="card-body">
           <h5 class="card-title">${inst.naziv}</h5>
           <p class="card-text">
           ${inst.zvezdica == 0 ? 
-            inst.cena.stara + `icon`
+            inst.cena.stara + `<i class='bx bxs-star'></i>`
             : 
             inst.cena.nova}
             <br/>
@@ -109,18 +114,21 @@ function KonstrukcijaInstrumenata(instrumenti, kategorije, tipovi, imediva){
           <input type="button" data-id="${inst.id}" class="fav btn btn-primary" value="Add in Cart">
         </div>
       </div>`
-      brojacred++;
-      if(brojacred%3 == 0){
+      //brojacred++;
+      pageQuota++;
+      /*if(brojacred%3 == 0){
         ispis += '</div>'
-    }
+    }*/
     }
 
     $(imediva).html(ispis);
+
+    Paginacija(instrumenti.length);
 }
 
-function Filter(instrument, imeklase, podatak){
+function Filter(instrument, imehtml, podatak){
     let izabranitipovi = [];
-    let check = $(imeklase);
+    let check = $(imehtml);
 
 
     for(let ch of check){
@@ -134,7 +142,49 @@ function Filter(instrument, imeklase, podatak){
     return filtriraniniz;
 }
 
+function PagPrikaz(duzina){
+    $('.instrument').hide()
+    $(`.strana-${duzina}`).show();
+}
 
+function tekstFilter(instrumenti, imediva){
+
+    let tekst = $(imediva).val().toLowerCase();
+
+    let filtriraniniz = tekst != 0 ? instrumenti.filter(i => i.naziv.toLowerCase().includes(tekst)) : instrumenti;
+
+    return filtriraniniz;
+
+}
+
+
+function cenaFilter(instrumenti, imediva){
+
+    let cena = $(imediva).val();
+
+    for(let inst of instrumenti){
+        console.log(inst.cena.stara);
+    }
+
+    let filtriraniniz = instrumenti.filter(i => i.cena);
+
+    return instrumenti;
+
+}
+
+function Paginacija(nizinstrumenata){
+    let strane = Math.ceil(nizinstrumenata/ITEMS_PER_PAGE);
+    let ispis = `<nav aria-label="Page navigation example">
+                            <ul class="pagination">`;
+
+    for(let i = 1; i <= strane; i++){
+        ispis += `<li class="page-item"><a class="page-link" href="#" active>${i}</a></li>`;
+    }
+
+    ispis += `</ul></nav>`
+
+    $('#pagination').html(ispis);
+}
 
 async function AsyncGalerija(){
     let instrumentfetch = await fetch("assets/json/produkti.json");
@@ -157,87 +207,7 @@ async function AsyncGalerija(){
 
 //korpa
 
-function dodajUListu(podatak){
-    let proizvod = podatak;
-    let korpa = dohvatiizLS("korpa");
 
-    if(!korpa.length){
-        dodajprviproduktulistu(proizvod)
-        console.log(1)
-    }else{
-        dodajsvakidrugiproduktulistu(proizvod, korpa);
-        console.log(2)
-    }
-
-}
-
-function dodajprviproduktulistu(proizvod){
-    let proizvodi = [];
-    proizvodi[0] = {
-        id: proizvod,
-        qty: 1
-    }
-
-    postaviULocalStorage("korpa", proizvodi);
-}
-
-function dodajsvakidrugiproduktulistu(proizvod){
-    let korpa = dohvatiizLS("korpa");
-
-    let proizvodi = [];
-
-    proizvodi[0] = {
-        id: proizvod,
-        qty: 1
-    }
-
-    korpa.push(Object(proizvodi));
-
-    postaviULocalStorage("sviproizvodi", korpa);
-}
-
-function IzbaciIzListe(){
-    
-    localStorage.removeItem("korpa");
-
-    localStorage.removeItem("sviproizvodi");
-
-    localStorage.setItem("korpa", 5);
-
-    localStorage.setItem("sviproizvodi", 3);
-}
-
-function kreirajkorpu(korpa){
-    let produktiizkorpe = dohvatiizLS(korpa);
-    //console.log(produktiizkorpe);
-
-    for(let p of produktiizkorpe){
-        console.log(p)
-    }
-
-        /*let ispis = `<table>
-        <thead>
-        <tr>
-        <th>Br.</th>
-        <th>Naziv</th>
-        <th>Kolicina</th>
-        <th>Cena</th>
-        </tr>
-        </thead>
-        <tbody>
-        `;
-    
-        for(let p of produktiizkorpe){
-            ispis += `<tr>
-            <td>${p.id}</td>
-            <td>${p.naziv}</td>
-            <td>${p.cena}</td>
-            <td>${p.qty}</td>`
-        }
-        ispis += `</tbody></table>`
-    
-        $("#korpaprikaz").html(ispis);*/
-}
 
 function rangepodaci(){
     let min = document.querySelector("#minp");
@@ -258,7 +228,7 @@ function promenacene(vrednost){
 
 }
 
-const perpage = 6;
+/*const perpage = 6;
 
 function webpaging(instrumenti, currentpage){
     let niz = Array.from(instrumenti).slice((currentpage-1)*perpage, perpage*currentpage);
@@ -286,4 +256,4 @@ function getNavPages(niz){
 
 function total(niz){
     return Math.ceil(niz.length/perpage);
-}
+}*/

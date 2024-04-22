@@ -3,41 +3,36 @@
 var INSTRUMENTI;
 var TIPOVI;
 var KATEGORIJE;
+var ITEMS_PER_PAGE = 6;
 
 window.onload = function () {
   AsyncGalerija();
-  webpaging(INSTRUMENTI, 1);
-  /*$(document).on("click", "#red", function() {
-      KonstrukcijaInstrumenata(INSTRUMENTI, "#galerija")
-  })*/
-
   $(document).on("click", ".tip", function () {
     KonstrukcijaInstrumenata(INSTRUMENTI, KATEGORIJE, TIPOVI, "#galerija");
   });
   $(document).on("click", ".kategorije", function () {
     KonstrukcijaInstrumenata(INSTRUMENTI, KATEGORIJE, TIPOVI, "#galerija");
   });
+  $(document).on("click", "#buttonsearch", function () {
+    KonstrukcijaInstrumenata(INSTRUMENTI, KATEGORIJE, TIPOVI, "#galerija");
+  });
   /*$(document).on("click", ".sort", function() {
       KonstrukcijaInstrumenata(INSTRUMENTI, KATEGORIJE, TIPOVI, "#galerija")
   })*/
 
+  $(document).on("click", ".page-link", function () {
+    var pageNumber = this.innerHTML;
+    PagPrikaz(pageNumber);
+  });
   $(document).on("click", ".fav", function () {
-    dodajUListu($(this).data("id"));
+    dodajuKorpu($(this).data("id"));
   });
-  $(document).on("click", "#test", function () {
-    IzbaciIzListe();
-  });
-  localStorage.setItem("korpa", 5);
   $(document).on("click", "#korpatoggle", function () {
     kreirajkorpu("korpa");
   });
   /*$(document).on("click", "#korpatoggle", function(){
       $("#prikazkorpe").css("display");
   })*/
-
-  $(document).on("input", "#cena", function () {
-    promenacene(this.value);
-  });
 };
 
 function postaviULocalStorage(korpa, produkt) {
@@ -110,8 +105,12 @@ function KonstrukcijaInstrumenata(instrumenti, kategorije, tipovi, imediva) {
   var ispis = "";
   var brojacred = 0;
   instrumenti = Filter(instrumenti, ".tip", 'tip');
-  instrumenti = Filter(instrumenti, ".kategorije", 'kategorija'); //instrumenti = Sort(instrumenti, ".sort");
+  instrumenti = Filter(instrumenti, ".kategorije", 'kategorija');
+  instrumenti = tekstFilter(instrumenti, "#instrumentsearch"); //instrumenti = cenaFilter(instrumenti, "#cena");
+  //instrumenti = Sort(instrumenti, ".sort");
 
+  var pageNumber = 1;
+  var pageQuota = 0;
   var _iteratorNormalCompletion3 = true;
   var _didIteratorError3 = false;
   var _iteratorError3 = undefined;
@@ -120,16 +119,20 @@ function KonstrukcijaInstrumenata(instrumenti, kategorije, tipovi, imediva) {
     for (var _iterator3 = instrumenti[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
       var inst = _step3.value;
 
-      if (brojacred % 3 == 0) {
-        ispis += "<div class=\"row red flex-row w-100 justify-content-evenly\">";
+      /*if(brojacred%3 == 0){
+          ispis += `<div class="row red flex-row w-100 justify-content-evenly">`
+      }*/
+      if (pageQuota === ITEMS_PER_PAGE) {
+        pageNumber++;
+        pageQuota = 0;
       }
 
-      ispis += "<div data-id=\"".concat(inst.id, "\" class=\"card col-lg-4 col-md-6 col-12 border-0\">\n        <img src=\"assets/slike/produkti/").concat(inst.slika.src, "\" class=\"card-img-top\" alt=\"").concat(inst.slika.alt, "\">\n        <div class=\"card-body\">\n          <h5 class=\"card-title\">").concat(inst.naziv, "</h5>\n          <p class=\"card-text\">\n          ").concat(inst.zvezdica == 0 ? inst.cena.stara + "icon" : inst.cena.nova, "\n            <br/>\n            ").concat(ProveraTipaKategorije(inst.kategorija, kategorije), "\n            <br/>\n            ").concat(ProveraTipaKategorije(inst.tip, tipovi), "</p>\n          <input type=\"button\" data-id=\"").concat(inst.id, "\" class=\"fav btn btn-primary\" value=\"Add in Cart\">\n        </div>\n      </div>");
-      brojacred++;
+      ispis += "<div data-id=\"".concat(inst.id, "\" class=\"card instrument col-lg-3 col-md-6 col-12 border-0 strana-").concat(pageNumber, "\">\n        <img src=\"assets/slike/produkti/").concat(inst.slika.src, "\" class=\"card-img-top\" alt=\"").concat(inst.slika.alt, "\">\n        <div class=\"card-body\">\n          <h5 class=\"card-title\">").concat(inst.naziv, "</h5>\n          <p class=\"card-text\">\n          ").concat(inst.zvezdica == 0 ? inst.cena.stara + "<i class='bx bxs-star'></i>" : inst.cena.nova, "\n            <br/>\n            ").concat(ProveraTipaKategorije(inst.kategorija, kategorije), "\n            <br/>\n            ").concat(ProveraTipaKategorije(inst.tip, tipovi), "</p>\n          <input type=\"button\" data-id=\"").concat(inst.id, "\" class=\"fav btn btn-primary\" value=\"Add in Cart\">\n        </div>\n      </div>"); //brojacred++;
 
-      if (brojacred % 3 == 0) {
-        ispis += '</div>';
-      }
+      pageQuota++;
+      /*if(brojacred%3 == 0){
+        ispis += '</div>'
+      }*/
     }
   } catch (err) {
     _didIteratorError3 = true;
@@ -147,11 +150,12 @@ function KonstrukcijaInstrumenata(instrumenti, kategorije, tipovi, imediva) {
   }
 
   $(imediva).html(ispis);
+  Paginacija(instrumenti.length);
 }
 
-function Filter(instrument, imeklase, podatak) {
+function Filter(instrument, imehtml, podatak) {
   var izabranitipovi = [];
-  var check = $(imeklase);
+  var check = $(imehtml);
   var _iteratorNormalCompletion4 = true;
   var _didIteratorError4 = false;
   var _iteratorError4 = undefined;
@@ -183,6 +187,63 @@ function Filter(instrument, imeklase, podatak) {
     return izabranitipovi.includes(String(inst[podatak]));
   }) : instrument;
   return filtriraniniz;
+}
+
+function PagPrikaz(duzina) {
+  $('.instrument').hide();
+  $(".strana-".concat(duzina)).show();
+}
+
+function tekstFilter(instrumenti, imediva) {
+  var tekst = $(imediva).val().toLowerCase();
+  var filtriraniniz = tekst != 0 ? instrumenti.filter(function (i) {
+    return i.naziv.toLowerCase().includes(tekst);
+  }) : instrumenti;
+  return filtriraniniz;
+}
+
+function cenaFilter(instrumenti, imediva) {
+  var cena = $(imediva).val();
+  var _iteratorNormalCompletion5 = true;
+  var _didIteratorError5 = false;
+  var _iteratorError5 = undefined;
+
+  try {
+    for (var _iterator5 = instrumenti[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+      var inst = _step5.value;
+      console.log(inst.cena.stara);
+    }
+  } catch (err) {
+    _didIteratorError5 = true;
+    _iteratorError5 = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion5 && _iterator5["return"] != null) {
+        _iterator5["return"]();
+      }
+    } finally {
+      if (_didIteratorError5) {
+        throw _iteratorError5;
+      }
+    }
+  }
+
+  var filtriraniniz = instrumenti.filter(function (i) {
+    return i.cena;
+  });
+  return instrumenti;
+}
+
+function Paginacija(nizinstrumenata) {
+  var strane = Math.ceil(nizinstrumenata / ITEMS_PER_PAGE);
+  var ispis = "<nav aria-label=\"Page navigation example\">\n                            <ul class=\"pagination\">";
+
+  for (var i = 1; i <= strane; i++) {
+    ispis += "<li class=\"page-item\"><a class=\"page-link\" href=\"#\" active>".concat(i, "</a></li>");
+  }
+
+  ispis += "</ul></nav>";
+  $('#pagination').html(ispis);
 }
 
 function AsyncGalerija() {
@@ -237,95 +298,6 @@ function AsyncGalerija() {
 } //korpa
 
 
-function dodajUListu(podatak) {
-  var proizvod = podatak;
-  var korpa = dohvatiizLS("korpa");
-
-  if (!korpa.length) {
-    dodajprviproduktulistu(proizvod);
-    console.log(1);
-  } else {
-    dodajsvakidrugiproduktulistu(proizvod, korpa);
-    console.log(2);
-  }
-}
-
-function dodajprviproduktulistu(proizvod) {
-  var proizvodi = [];
-  proizvodi[0] = {
-    id: proizvod,
-    qty: 1
-  };
-  postaviULocalStorage("korpa", proizvodi);
-}
-
-function dodajsvakidrugiproduktulistu(proizvod) {
-  var korpa = dohvatiizLS("korpa");
-  var proizvodi = [];
-  proizvodi[0] = {
-    id: proizvod,
-    qty: 1
-  };
-  korpa.push(Object(proizvodi));
-  postaviULocalStorage("sviproizvodi", korpa);
-}
-
-function IzbaciIzListe() {
-  localStorage.removeItem("korpa");
-  localStorage.removeItem("sviproizvodi");
-  localStorage.setItem("korpa", 5);
-  localStorage.setItem("sviproizvodi", 3);
-}
-
-function kreirajkorpu(korpa) {
-  var produktiizkorpe = dohvatiizLS(korpa); //console.log(produktiizkorpe);
-
-  var _iteratorNormalCompletion5 = true;
-  var _didIteratorError5 = false;
-  var _iteratorError5 = undefined;
-
-  try {
-    for (var _iterator5 = produktiizkorpe[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
-      var p = _step5.value;
-      console.log(p);
-    }
-    /*let ispis = `<table>
-    <thead>
-    <tr>
-    <th>Br.</th>
-    <th>Naziv</th>
-    <th>Kolicina</th>
-    <th>Cena</th>
-    </tr>
-    </thead>
-    <tbody>
-    `;
-          for(let p of produktiizkorpe){
-        ispis += `<tr>
-        <td>${p.id}</td>
-        <td>${p.naziv}</td>
-        <td>${p.cena}</td>
-        <td>${p.qty}</td>`
-    }
-    ispis += `</tbody></table>`
-          $("#korpaprikaz").html(ispis);*/
-
-  } catch (err) {
-    _didIteratorError5 = true;
-    _iteratorError5 = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion5 && _iterator5["return"] != null) {
-        _iterator5["return"]();
-      }
-    } finally {
-      if (_didIteratorError5) {
-        throw _iteratorError5;
-      }
-    }
-  }
-}
-
 function rangepodaci() {
   var min = document.querySelector("#minp");
   var max = document.querySelector("#maxp");
@@ -340,32 +312,32 @@ function promenacene(vrednost) {
   var min = document.querySelector("#minp");
   min.textContent = vrednost;
 }
+/*const perpage = 6;
 
-var perpage = 6;
-
-function webpaging(instrumenti, currentpage) {
-  var niz = Array.from(instrumenti).slice((currentpage - 1) * perpage, perpage * currentpage);
-  getNavPages(niz);
+function webpaging(instrumenti, currentpage){
+    let niz = Array.from(instrumenti).slice((currentpage-1)*perpage, perpage*currentpage);
+    getNavPages(niz);
 }
 
-function getNavPages(niz) {
-  var total = totalpages(niz);
-  var ispis = "";
+function getNavPages(niz){
+    let total = totalpages(niz);
 
-  for (var i = 0; i < total; i++) {
-    ispis += "<li class=\"page-item\"><a data-page=\"".concat(i + 1, "\" class=\"page-link\" href=\"#\">").concat(i + 1, "</a></li>");
-  }
+    let ispis = "";
 
-  document.querySelector("#pagination").innerHTML = ispis;
-  $(document).on("click", ".page-link", function () {
-    var strana = $(this).data("page");
-    webpaging(niz, strana);
-    $(this).css({
-      "color": "black"
+    for(let i=0; i<total; i++){
+        ispis += `<li class="page-item"><a data-page="${i+1}" class="page-link" href="#">${i+1}</a></li>`
+    }
+
+    document.querySelector("#pagination").innerHTML = ispis;
+    $(document).on("click", ".page-link", function(){
+        let strana = $(this).data("page");
+        webpaging(niz, strana);
+        $(this).css({
+            "color": "black"
+        })
     });
-  });
 }
 
-function total(niz) {
-  return Math.ceil(niz.length / perpage);
-}
+function total(niz){
+    return Math.ceil(niz.length/perpage);
+}*/

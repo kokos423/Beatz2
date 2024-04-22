@@ -9,8 +9,18 @@ ul {
 a {
   text-decoration: none;
 }
+#glavniheader {
+  height: 80px;
+}
 #glavniheader .navbar {
   background-color: #141414 !important;
+}
+#glavniheader .navbar .navbar-brand {
+  font-size: 32px;
+  font-weight: bolder;
+  background: -webkit-linear-gradient(#3ad67e, #debe1f);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 #glavniheader .navbar #headerlista {
   justify-content: end !important;
@@ -151,4 +161,32 @@ footer a {
 #produktiprikaz #search input[type="text"] {
   height: 100%;
   border: none;
+}
+#forma {
+  background-color: #141414;
+  width: 80% !important;
+  margin: 20px auto !important;
+  border: 1px solid #3ad67e;
+}
+#forma label {
+  color: #3ad67e;
+}
+#forma h2 {
+  color: #3ad67e;
+}
+#forma span {
+  color: red;
+}
+#forma input,
+#forma textarea,
+#forma select {
+  border: none;
+  border-radius: 4px;
+  background-color: #e2e6e1;
+}
+#forma input[type="radio"]:checked {
+  background-color: #3ad67e;
+}
+.greska {
+  display: none;
 }

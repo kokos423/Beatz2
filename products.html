@@ -1,32 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+       
         <link rel="stylesheet" href="assets/css/dist/main.css">
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'/>
     </head>
 
     <body>
       <header id="glavniheader" class="w-100">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light w-100 px-3">
-          <a class="navbar-brand" href="index.html">
-            <img src="assets/slike/logo.png" alt="Bootstrap" class="w-75 h-75">
-          </a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav" id="headerlista">
-            </ul>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top w-100 px-3">
+          <a class="navbar-brand" href="index.html">Beatz</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarOffcanvasLg" aria-controls="navbarOffcanvasLg" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="offcanvas offcanvas-end px-4 py-2" tabindex="-1" id="navbarOffcanvasLg" aria-labelledby="navbarOffcanvasLgLabel">
+          <ul class="navbar-nav" id="headerlista"></ul>
           </div>
-        </nav>
+  </nav>
+        
       </header>
         <div id="produktiprikaz">
             <div class="container-fluid">
               <div class="row d-flex w-100" id="search">
-                <button type="submit" class="col-2">Search</button>
+                <button type="submit" class="col-2" id="buttonsearch">Search</button>
                 <input type="text" name="instrumentsearch" id="instrumentsearch" class="col-10">
               </div>
-                <div class="row w-100">
+                <div class="row w-100" id="produkti">
                     <div id="filterpodaci" class="col-2 d-flex flex-column px-0">
                         <div class="accordion accordion-flush" id="accordionFlushExample">
                             <div class="accordion-item">
@@ -61,7 +62,7 @@
                               </h2>
                               <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
                                 <div class="accordion-body d-flex flex-column">
-                                  <input type="range" min="0" max="25000" name="cena" id="cena" class="w-100">
+                                  <input type="range" min="0" max="25000" name="cena" id="cena" value="0" class="w-100">
                                   <div id="rangepodaci" class="d-flex justify-content-between">
                                       <strong id="minp"></strong>
                                       <strong id="maxp"></strong>
@@ -71,37 +72,98 @@
                             </div>
                             <div class="accordion-item">
                               <h2 class="accordion-header" id="flush-headingFour">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
-                                  <strong>Date of release</strong>
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFive" aria-expanded="false" aria-controls="flush-collapseFive">
+                                  <strong>Sorting</strong>
                                 </button>
                               </h2>
-                              <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample">
-                                <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the third item's accordion body. Nothing more exciting happening here in terms of content, but just filling up the space to make it look, at least at first glance, a bit more representative of how this would look in a real-world application.</div>
+                              <div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-headingFive" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                  <select name="sort" id="sort">
+                                    <option value="1">Select</option>
+                                    <option value="ASC">A-Z</option>
+                                    <option value="DESC">Z-A</option>
+                                    <option value="YASC">Oldest</option>
+                                    <option value="YESC">Newest</option>
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="accordion-item">
+                              <h2 class="accordion-header" id="flush-headingFour">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSix" aria-expanded="false" aria-controls="flush-collapseSix">
+                                  <strong>Featured Products</strong>
+                                </button>
+                              </h2>
+                              <div id="flush-collapseSix" class="accordion-collapse collapse" aria-labelledby="flush-headingSix" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                  <div class="d-flex flex-column p-1">
+                                    <label for="featured">Only Golden Featured</label>
+                                    <input type="checkbox" name="featured" id="featured" value="featured">
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </div>
                     </div>
                         
-                    <div id="galerija" class="d-flex flex-column col-10">
+                    <div id="galerija" class="d-flex flex-row col-10 flex-wrap">
                         
                     </div>
                 </div>
             </div>
             
         </div>
-        <nav aria-label="Page navigation example">
-          <ul class="pagination" id="pagination">
-           
-          </ul>
-        </nav>
+        
+        <div id="pagination"></div>
+
         <input type="submit" value="Prikaz Korpe" id="korpatoggle">
         <div id="korpaprikaz">
 
         </div>
         <input type="submit" id="test" value="Test">
+        <footer class="d-flex flex-column">
+          <div class="wrapper w-75 mx-auto mt-4">
+            <div class="container-fluid">
+              <div class="row d-flex flex-row">
+            <nav class="col-sm col-6-xs">
+              <ul>
+                <li>
+                  <a href="index.html">Home</a>
+                </li>
+                <li>
+                  <a href="produkti.html">Produkti</a>
+                </li>
+                <li>
+                  <a href="newsletter.html">Newsletter</a>
+                </li>
+                <li>
+                  <a href="author.html">Author</a>
+                </li>
+                <li>
+                  <a href="author.html">Documentation</a>
+                </li>
+              </ul>
+            </nav>
+            <nav class="col-sm col-6-xs">
+              <ul>
+                <a href="assets/css/dist/style.css"><li>CSS</li></a>
+                <a href="assets/css/dist/responsive.css"><li>Responsive</li></a>
+                <a href="assets/css/style.less"><li>Less</li></a>
+                <a href="assets/css/responsive.less"><li>Responsive Less</li></a>
+                <a href="sitemap.xml"><li>Sitemap</li></a>
+                <a href="robots.txt"><li>Robots.txt</li></a>
+              </ul>
+            </nav>
+          </div>
+        </div>
+        </div>
+        <hr/>
+        <p class="text-center">Copyright &copy; 2022 Alekandar Mićić &reg;</p>
+        </footer>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
         <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
         <script src="assets/javascript/produkti.js"></script>
         <script src="assets/javascript/main.js"></script>
+        
     </body>
 </html>

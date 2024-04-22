@@ -20,8 +20,17 @@ a{
 
 
 #glavniheader{
+    height:80px;
     .navbar{
     background-color: @tamnosiva !important;
+
+    .navbar-brand{
+        font-size: 32px;
+        font-weight: bolder;
+        background: -webkit-linear-gradient(rgb(58, 214, 126), rgb(222, 190, 31));
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
 
     #headerlista{
         justify-content: end !important;
@@ -192,4 +201,36 @@ footer{
         }
     }
 
+}
+
+#forma{
+    background-color: @tamnosiva;
+    width:80% !important;
+    margin: 20px auto !important;
+    label{
+        color:@zelena;
+    }
+    border: 1px solid @zelena;
+
+    h2{
+        color:@zelena;
+    }
+
+    span{
+        color: red;
+    }
+
+    input, textarea, select{
+            border:none;
+            border-radius: 4px;
+            background-color: #e2e6e1;
+    }
+
+    input[type="radio"]:checked{
+        background-color: @zelena;
+    }
+}
+
+.greska{
+    display: none;
 }
