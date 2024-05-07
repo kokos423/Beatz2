@@ -190,3 +190,13 @@ footer a {
 .greska {
   display: none;
 }
+.bxs-star {
+  color: #debe1f;
+}
+.bxs-cart {
+  color: #3ad67e;
+}
+#korpadugmici {
+  background-color: #e2e6e1;
+  border: 2px solid #141414;
+}

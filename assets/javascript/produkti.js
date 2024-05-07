@@ -18,39 +18,23 @@ window.onload = () =>  {
         KonstrukcijaInstrumenata(INSTRUMENTI, KATEGORIJE, TIPOVI, "#galerija");
     })
 
-    /*$(document).on("click", ".sort", function() {
+    $(document).on("change", "#sort", function() {
         KonstrukcijaInstrumenata(INSTRUMENTI, KATEGORIJE, TIPOVI, "#galerija")
-    })*/
+    })
 
     $(document).on("click", ".page-link", function(){
         let pageNumber = this.innerHTML;
         PagPrikaz(pageNumber)
     })
 
-    $(document).on("click", ".fav", function(){
-        dodajuKorpu($(this).data("id"));
+    $(document).on('click', '.fav', function(event){
+        let instrumentID = $(this).data('id');
+        let instrument = INSTRUMENTI.find(el => el.id == instrumentID) 
+        dodajuKorpu(instrumentID, instrument, event)
     })
 
-
-    $(document).on("click", "#korpatoggle", function(){
-        kreirajkorpu("korpa");
-    })
-
-    /*$(document).on("click", "#korpatoggle", function(){
-        $("#prikazkorpe").css("display");
-    })*/
-
-
-
 }
 
-function postaviULocalStorage(korpa, produkt){
-    localStorage.setItem(korpa, JSON.stringify(produkt));
-}
-
-function dohvatiizLS(korpa){
-    return JSON.parse(localStorage.getItem(korpa));
-}
 
 function KonstrukcijaKategorijeTipova(kategorije, imediva, imeklase){
     let ispis = "";
@@ -77,35 +61,31 @@ function ProveraTipaKategorije(katid, pretraga){
 
 function KonstrukcijaInstrumenata(instrumenti, kategorije, tipovi, imediva){
     let ispis = "";
-    let brojacred = 0;
 
     instrumenti = Filter(instrumenti, ".tip", 'tip');
     instrumenti = Filter(instrumenti, ".kategorije", 'kategorija');
     instrumenti = tekstFilter(instrumenti, "#instrumentsearch");
     //instrumenti = cenaFilter(instrumenti, "#cena");
 
-    //instrumenti = Sort(instrumenti, ".sort");
+    instrumenti = Sort(instrumenti, "#sort");
     
     let pageNumber = 1;
     let pageQuota = 0;
 
     for(let inst of instrumenti){
-        /*if(brojacred%3 == 0){
-            ispis += `<div class="row red flex-row w-100 justify-content-evenly">`
-        }*/
         if(pageQuota === ITEMS_PER_PAGE){
             pageNumber++;
             pageQuota=0;
         }
-        ispis += `<div data-id="${inst.id}" class="card instrument col-lg-3 col-md-6 col-12 border-0 strana-${pageNumber}">
+        ispis += `<div data-id="${inst.id}" class="card instrument col-lg-4 col-md-6 col-12 border-0 strana-${pageNumber}">
         <img src="assets/slike/produkti/${inst.slika.src}" class="card-img-top" alt="${inst.slika.alt}">
         <div class="card-body">
           <h5 class="card-title">${inst.naziv}</h5>
           <p class="card-text">
           ${inst.zvezdica == 0 ? 
-            inst.cena.stara + `<i class='bx bxs-star'></i>`
+            inst.cena + `<i class='bx bxs-star'></i>`
             : 
-            inst.cena.nova}
+            inst.cena}
             <br/>
             ${ProveraTipaKategorije(inst.kategorija, kategorije)}
             <br/>
@@ -114,16 +94,12 @@ function KonstrukcijaInstrumenata(instrumenti, kategorije, tipovi, imediva){
           <input type="button" data-id="${inst.id}" class="fav btn btn-primary" value="Add in Cart">
         </div>
       </div>`
-      //brojacred++;
       pageQuota++;
-      /*if(brojacred%3 == 0){
-        ispis += '</div>'
-    }*/
     }
 
     $(imediva).html(ispis);
-
     Paginacija(instrumenti.length);
+    PagPrikaz(1);
 }
 
 function Filter(instrument, imehtml, podatak){
@@ -157,13 +133,32 @@ function tekstFilter(instrumenti, imediva){
 
 }
 
+function Sort(instrumenti, sort){
+    let tipsort = $(sort);
+    let sotiranniz;
 
+    if(tipsort.val() == 'ASC'){
+        sotiranniz = instrumenti.sort((x,y) => x.cena - y.cena)
+        console.log(instrumenti.cena['stara']);
+    } else if(tipsort.val() == 'DESC'){
+        sotiranniz = instrumenti.sort((x,y) => y.cena - x.cena)
+    } else if(tipsort.val() == 'YASC'){
+        sotiranniz = instrumenti.sort((x,y) => x.godina - y.godina)
+    } else if (tipsort.val()=='YESC'){
+        sotiranniz = instrumenti.sort((x,y) => y.godina - x.godina)
+    } else{
+        sotiranniz = instrumenti;
+    }
+
+
+    return sotiranniz;
+}
 function cenaFilter(instrumenti, imediva){
 
     let cena = $(imediva).val();
 
     for(let inst of instrumenti){
-        console.log(inst.cena.stara);
+        console.log(inst.cena);
     }
 
     let filtriraniniz = instrumenti.filter(i => i.cena);
@@ -206,7 +201,38 @@ async function AsyncGalerija(){
 }
 
 //korpa
+function postaviULocalStorage(korpa, produkt){
+    localStorage.setItem(korpa, JSON.stringify(produkt));
+}
 
+function dohvatiizLS(korpa){
+    return JSON.parse(localStorage.getItem(korpa));
+}
+
+function dodajuKorpu(id, instrument, event){
+    if(dohvatiizLS('korpa')){
+        let korpa = dohvatiizLS('korpa');
+
+        if(korpa.find(c => c.id == id)){
+            let instrument = korpa.find(inst => inst.id == id)
+            instrument.kolicina++;
+        }else{
+            let prviprodukt = {
+                id: id,
+                kolicina: 1
+            }
+            korpa.push(prviprodukt)
+        }
+        postaviULocalStorage('korpa', korpa);
+    }else{
+        let produkt = {
+            id: id,
+            kolicina: 1
+        }
+
+        postaviULocalStorage('korpa', [produkt])
+    }
+}
 
 
 function rangepodaci(){
@@ -228,32 +254,3 @@ function promenacene(vrednost){
 
 }
 
-/*const perpage = 6;
-
-function webpaging(instrumenti, currentpage){
-    let niz = Array.from(instrumenti).slice((currentpage-1)*perpage, perpage*currentpage);
-    getNavPages(niz);
-}
-
-function getNavPages(niz){
-    let total = totalpages(niz);
-
-    let ispis = "";
-
-    for(let i=0; i<total; i++){
-        ispis += `<li class="page-item"><a data-page="${i+1}" class="page-link" href="#">${i+1}</a></li>`
-    }
-
-    document.querySelector("#pagination").innerHTML = ispis;
-    $(document).on("click", ".page-link", function(){
-        let strana = $(this).data("page");
-        webpaging(niz, strana);
-        $(this).css({
-            "color": "black"
-        })
-    });
-}
-
-function total(niz){
-    return Math.ceil(niz.length/perpage);
-}*/

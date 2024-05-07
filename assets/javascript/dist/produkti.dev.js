@@ -16,32 +16,21 @@ window.onload = function () {
   $(document).on("click", "#buttonsearch", function () {
     KonstrukcijaInstrumenata(INSTRUMENTI, KATEGORIJE, TIPOVI, "#galerija");
   });
-  /*$(document).on("click", ".sort", function() {
-      KonstrukcijaInstrumenata(INSTRUMENTI, KATEGORIJE, TIPOVI, "#galerija")
-  })*/
-
+  $(document).on("change", "#sort", function () {
+    KonstrukcijaInstrumenata(INSTRUMENTI, KATEGORIJE, TIPOVI, "#galerija");
+  });
   $(document).on("click", ".page-link", function () {
     var pageNumber = this.innerHTML;
     PagPrikaz(pageNumber);
   });
-  $(document).on("click", ".fav", function () {
-    dodajuKorpu($(this).data("id"));
+  $(document).on('click', '.fav', function (event) {
+    var instrumentID = $(this).data('id');
+    var instrument = INSTRUMENTI.find(function (el) {
+      return el.id == instrumentID;
+    });
+    dodajuKorpu(instrumentID, instrument, event);
   });
-  $(document).on("click", "#korpatoggle", function () {
-    kreirajkorpu("korpa");
-  });
-  /*$(document).on("click", "#korpatoggle", function(){
-      $("#prikazkorpe").css("display");
-  })*/
 };
-
-function postaviULocalStorage(korpa, produkt) {
-  localStorage.setItem(korpa, JSON.stringify(produkt));
-}
-
-function dohvatiizLS(korpa) {
-  return JSON.parse(localStorage.getItem(korpa));
-}
 
 function KonstrukcijaKategorijeTipova(kategorije, imediva, imeklase) {
   var ispis = "";
@@ -103,12 +92,11 @@ function ProveraTipaKategorije(katid, pretraga) {
 
 function KonstrukcijaInstrumenata(instrumenti, kategorije, tipovi, imediva) {
   var ispis = "";
-  var brojacred = 0;
   instrumenti = Filter(instrumenti, ".tip", 'tip');
   instrumenti = Filter(instrumenti, ".kategorije", 'kategorija');
   instrumenti = tekstFilter(instrumenti, "#instrumentsearch"); //instrumenti = cenaFilter(instrumenti, "#cena");
-  //instrumenti = Sort(instrumenti, ".sort");
 
+  instrumenti = Sort(instrumenti, "#sort");
   var pageNumber = 1;
   var pageQuota = 0;
   var _iteratorNormalCompletion3 = true;
@@ -119,20 +107,13 @@ function KonstrukcijaInstrumenata(instrumenti, kategorije, tipovi, imediva) {
     for (var _iterator3 = instrumenti[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
       var inst = _step3.value;
 
-      /*if(brojacred%3 == 0){
-          ispis += `<div class="row red flex-row w-100 justify-content-evenly">`
-      }*/
       if (pageQuota === ITEMS_PER_PAGE) {
         pageNumber++;
         pageQuota = 0;
       }
 
-      ispis += "<div data-id=\"".concat(inst.id, "\" class=\"card instrument col-lg-3 col-md-6 col-12 border-0 strana-").concat(pageNumber, "\">\n        <img src=\"assets/slike/produkti/").concat(inst.slika.src, "\" class=\"card-img-top\" alt=\"").concat(inst.slika.alt, "\">\n        <div class=\"card-body\">\n          <h5 class=\"card-title\">").concat(inst.naziv, "</h5>\n          <p class=\"card-text\">\n          ").concat(inst.zvezdica == 0 ? inst.cena.stara + "<i class='bx bxs-star'></i>" : inst.cena.nova, "\n            <br/>\n            ").concat(ProveraTipaKategorije(inst.kategorija, kategorije), "\n            <br/>\n            ").concat(ProveraTipaKategorije(inst.tip, tipovi), "</p>\n          <input type=\"button\" data-id=\"").concat(inst.id, "\" class=\"fav btn btn-primary\" value=\"Add in Cart\">\n        </div>\n      </div>"); //brojacred++;
-
+      ispis += "<div data-id=\"".concat(inst.id, "\" class=\"card instrument col-lg-4 col-md-6 col-12 border-0 strana-").concat(pageNumber, "\">\n        <img src=\"assets/slike/produkti/").concat(inst.slika.src, "\" class=\"card-img-top\" alt=\"").concat(inst.slika.alt, "\">\n        <div class=\"card-body\">\n          <h5 class=\"card-title\">").concat(inst.naziv, "</h5>\n          <p class=\"card-text\">\n          ").concat(inst.zvezdica == 0 ? inst.cena + "<i class='bx bxs-star'></i>" : inst.cena, "\n            <br/>\n            ").concat(ProveraTipaKategorije(inst.kategorija, kategorije), "\n            <br/>\n            ").concat(ProveraTipaKategorije(inst.tip, tipovi), "</p>\n          <input type=\"button\" data-id=\"").concat(inst.id, "\" class=\"fav btn btn-primary\" value=\"Add in Cart\">\n        </div>\n      </div>");
       pageQuota++;
-      /*if(brojacred%3 == 0){
-        ispis += '</div>'
-      }*/
     }
   } catch (err) {
     _didIteratorError3 = true;
@@ -151,6 +132,7 @@ function KonstrukcijaInstrumenata(instrumenti, kategorije, tipovi, imediva) {
 
   $(imediva).html(ispis);
   Paginacija(instrumenti.length);
+  PagPrikaz(1);
 }
 
 function Filter(instrument, imehtml, podatak) {
@@ -202,6 +184,34 @@ function tekstFilter(instrumenti, imediva) {
   return filtriraniniz;
 }
 
+function Sort(instrumenti, sort) {
+  var tipsort = $(sort);
+  var sotiranniz;
+
+  if (tipsort.val() == 'ASC') {
+    sotiranniz = instrumenti.sort(function (x, y) {
+      return x.cena - y.cena;
+    });
+    console.log(instrumenti.cena['stara']);
+  } else if (tipsort.val() == 'DESC') {
+    sotiranniz = instrumenti.sort(function (x, y) {
+      return y.cena - x.cena;
+    });
+  } else if (tipsort.val() == 'YASC') {
+    sotiranniz = instrumenti.sort(function (x, y) {
+      return x.godina - y.godina;
+    });
+  } else if (tipsort.val() == 'YESC') {
+    sotiranniz = instrumenti.sort(function (x, y) {
+      return y.godina - x.godina;
+    });
+  } else {
+    sotiranniz = instrumenti;
+  }
+
+  return sotiranniz;
+}
+
 function cenaFilter(instrumenti, imediva) {
   var cena = $(imediva).val();
   var _iteratorNormalCompletion5 = true;
@@ -211,7 +221,7 @@ function cenaFilter(instrumenti, imediva) {
   try {
     for (var _iterator5 = instrumenti[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
       var inst = _step5.value;
-      console.log(inst.cena.stara);
+      console.log(inst.cena);
     }
   } catch (err) {
     _didIteratorError5 = true;
@@ -298,6 +308,44 @@ function AsyncGalerija() {
 } //korpa
 
 
+function postaviULocalStorage(korpa, produkt) {
+  localStorage.setItem(korpa, JSON.stringify(produkt));
+}
+
+function dohvatiizLS(korpa) {
+  return JSON.parse(localStorage.getItem(korpa));
+}
+
+function dodajuKorpu(id, instrument, event) {
+  if (dohvatiizLS('korpa')) {
+    var korpa = dohvatiizLS('korpa');
+
+    if (korpa.find(function (c) {
+      return c.id == id;
+    })) {
+      var _instrument = korpa.find(function (inst) {
+        return inst.id == id;
+      });
+
+      _instrument.kolicina++;
+    } else {
+      var prviprodukt = {
+        id: id,
+        kolicina: 1
+      };
+      korpa.push(prviprodukt);
+    }
+
+    postaviULocalStorage('korpa', korpa);
+  } else {
+    var produkt = {
+      id: id,
+      kolicina: 1
+    };
+    postaviULocalStorage('korpa', [produkt]);
+  }
+}
+
 function rangepodaci() {
   var min = document.querySelector("#minp");
   var max = document.querySelector("#maxp");
@@ -312,32 +360,3 @@ function promenacene(vrednost) {
   var min = document.querySelector("#minp");
   min.textContent = vrednost;
 }
-/*const perpage = 6;
-
-function webpaging(instrumenti, currentpage){
-    let niz = Array.from(instrumenti).slice((currentpage-1)*perpage, perpage*currentpage);
-    getNavPages(niz);
-}
-
-function getNavPages(niz){
-    let total = totalpages(niz);
-
-    let ispis = "";
-
-    for(let i=0; i<total; i++){
-        ispis += `<li class="page-item"><a data-page="${i+1}" class="page-link" href="#">${i+1}</a></li>`
-    }
-
-    document.querySelector("#pagination").innerHTML = ispis;
-    $(document).on("click", ".page-link", function(){
-        let strana = $(this).data("page");
-        webpaging(niz, strana);
-        $(this).css({
-            "color": "black"
-        })
-    });
-}
-
-function total(niz){
-    return Math.ceil(niz.length/perpage);
-}*/

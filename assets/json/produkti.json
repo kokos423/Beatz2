@@ -6,14 +6,9 @@
         "tip" : 1,
     "zvezdica": 0,
     "boja": "Brown",
-    "manufaktura": {
-        "brend": "First Act",
-        "godina": "2013"
-    },
-    "cena" : {
-        "nova": 0,
-        "stara" : 3500
-    },
+    "brend": "First Act",
+    "godina": 2013,
+    "cena" : 3500,
     "slika" : {
         "src" : "firstactguitar1.jpg",
         "alt" : "firstact1"
@@ -27,14 +22,9 @@
             "tip" : 1,
         "zvezdica": 0,
         "boja": "White",
-        "manufaktura": {
-            "brend": "First Act",
-            "godina": "2015"
-        },
-        "cena" : {
-            "nova": 0,
-            "stara" : 4200
-        },
+        "brend": "First Act",
+        "godina": 2015,
+        "cena" : 4200,
         "slika" : {
             "src" : "firstactguitar2.jpg",
             "alt" : "firstact2"
@@ -48,14 +38,9 @@
             "tip" : 1,
         "zvezdica": 1,
         "boja": "White",
-        "manufaktura": {
-            "brend": "Shecter",
-            "godina": "2013"
-        },
-        "cena" : {
-            "nova": 5740,
-            "stara" : 6800
-        },
+        "brend": "Shecter",
+        "godina": 2013,
+        "cena" : 5740,  
         "slika" : {
             "src" : "shecter1.jpg",
             "alt" : "shecter1"
@@ -68,14 +53,9 @@
             "tip" : 1,
         "zvezdica": 0,
         "boja": "Brown",
-        "manufaktura": {
-            "brend": "Shecter",
-            "godina": "2017"
-        },
-        "cena" : {
-            "nova": 5320,
-            "stara" : 7000
-        },        
+        "brend": "Shecter",
+        "godina": 2017,
+        "cena" : 5320,     
         "slika" : {
             "src" : "shecter2.jpg",
             "alt" : "shecter2"
@@ -88,14 +68,9 @@
             "tip" : 1,
         "zvezdica": 0,
         "boja": "Brown",
-        "manufaktura": {
             "brend": "Shecter",
-            "godina": "2015"
-        },
-        "cena" : {
-            "nova": 0,
-            "stara" : 6430
-        },
+        "godina": 2015,
+        "cena" :  6430,
         "slika" : {
             "src" : "shecterb1.jpg",
             "alt" : "shecterb1"
@@ -108,14 +83,9 @@
             "tip" : 1,
         "zvezdica": 0,
         "boja": "Blue",
-        "manufaktura": {
             "brend": "Yamaha",
-            "godina": "2016"
-        },
-        "cena" : {
-            "nova": 0,
-            "stara" : 7530
-        },
+            "godina": 2016,
+        "cena" : 7530,
         "slika" : {
             "src" : "yamahab1.jpg",
             "alt" : "yamahab1"
@@ -128,14 +98,9 @@
             "tip" : 2,
         "zvezdica": 1,
         "boja": "Blue",
-        "manufaktura": {
-            "brend": "Yamaha",
-            "godina": "2013"
-        },
-        "cena" : {
-            "nova": 4930,
-            "stara" : 6430
-        },
+        "brend": "Yamaha",
+        "godina": 2013,
+        "cena" : 4930,
         "slika" : {
             "src" : "yamahasyn1.jpg",
             "alt" : "yamahasyn1"
@@ -148,14 +113,9 @@
             "tip" : 2,
         "zvezdica": 1,
         "boja": "Black",
-        "manufaktura": {
-            "brend": "Roland",
-            "godina": "2015"
-        },
-        "cena" : {
-            "nova": 5320,
-            "stara" : 6900
-        },
+        "brend": "Roland",
+        "godina": 2015,
+        "cena" : 5320,
         "slika" : {
             "src" : "rolandmx1.jpg",
             "alt" : "rolandmx1"
@@ -168,14 +128,9 @@
         "tip" : 3,
         "zvezdica": 0,
         "boja": "Gold",
-        "manufaktura": {
             "brend": "Yamaha",
-            "godina": "2018"
-        },
-        "cena" : {
-            "nova": 0,
-            "stara" : 9350
-        },
+            "godina": 2018,
+        "cena" : 9350,
         "slika" : {
             "src" : "yamahatr1.jpg",
             "alt" : "yamahatr1"
@@ -188,14 +143,9 @@
         "tip" : 3,
         "zvezdica": 1,
         "boja": "Gold",
-        "manufaktura": {
             "brend": "Yamaha",
-            "godina": "2016"
-        },
-        "cena" : {
-            "nova": 8295,
-            "stara" : 10400
-        },
+            "godina": 2016,
+        "cena" : 8295,
         "slika" : {
             "src" : "yamahahorn.jpg",
             "alt" : "yamahahorn"
@@ -205,17 +155,12 @@
         "id": 11,
         "naziv": "Eastman Student's Trombone",
         "kategorija": 5,
-        "tip" : 4,
+        "tip" : 3,
         "zvezdica": 0,
         "boja": "Silver",
-        "manufaktura": {
             "brend": "Eastman",
-            "godina": "2014"
-        },
-        "cena" : {
-            "nova": 0,
-            "stara" : 7400
-        },
+            "godina": 2014,
+        "cena" : 7400,
         "slika" : {
             "src" : "eastmantr1.jpg",
             "alt" : "eastmantr1"
