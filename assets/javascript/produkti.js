@@ -18,8 +18,12 @@ window.onload = () =>  {
         KonstrukcijaInstrumenata(INSTRUMENTI, KATEGORIJE, TIPOVI, "#galerija");
     })
 
+    $(document).on("change", "#cena", function() {
+        KonstrukcijaInstrumenata(INSTRUMENTI, KATEGORIJE, TIPOVI, "#galerija");
+    })
+
     $(document).on("change", "#sort", function() {
-        KonstrukcijaInstrumenata(INSTRUMENTI, KATEGORIJE, TIPOVI, "#galerija")
+        KonstrukcijaInstrumenata(INSTRUMENTI, KATEGORIJE, TIPOVI, "#galerija");
     })
 
     $(document).on("click", ".page-link", function(){
@@ -65,7 +69,7 @@ function KonstrukcijaInstrumenata(instrumenti, kategorije, tipovi, imediva){
     instrumenti = Filter(instrumenti, ".tip", 'tip');
     instrumenti = Filter(instrumenti, ".kategorije", 'kategorija');
     instrumenti = tekstFilter(instrumenti, "#instrumentsearch");
-    //instrumenti = cenaFilter(instrumenti, "#cena");
+    instrumenti = cenaFilter(instrumenti, "#cena");
 
     instrumenti = Sort(instrumenti, "#sort");
     
@@ -139,7 +143,6 @@ function Sort(instrumenti, sort){
 
     if(tipsort.val() == 'ASC'){
         sotiranniz = instrumenti.sort((x,y) => x.cena - y.cena)
-        console.log(instrumenti.cena['stara']);
     } else if(tipsort.val() == 'DESC'){
         sotiranniz = instrumenti.sort((x,y) => y.cena - x.cena)
     } else if(tipsort.val() == 'YASC'){
@@ -157,13 +160,9 @@ function cenaFilter(instrumenti, imediva){
 
     let cena = $(imediva).val();
 
-    for(let inst of instrumenti){
-        console.log(inst.cena);
-    }
+    let filtriraniniz = instrumenti.filter(i => i.cena > cena);
 
-    let filtriraniniz = instrumenti.filter(i => i.cena);
-
-    return instrumenti;
+    return filtriraniniz;
 
 }
 

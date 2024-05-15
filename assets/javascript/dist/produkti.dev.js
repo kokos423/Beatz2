@@ -16,6 +16,9 @@ window.onload = function () {
   $(document).on("click", "#buttonsearch", function () {
     KonstrukcijaInstrumenata(INSTRUMENTI, KATEGORIJE, TIPOVI, "#galerija");
   });
+  $(document).on("change", "#cena", function () {
+    KonstrukcijaInstrumenata(INSTRUMENTI, KATEGORIJE, TIPOVI, "#galerija");
+  });
   $(document).on("change", "#sort", function () {
     KonstrukcijaInstrumenata(INSTRUMENTI, KATEGORIJE, TIPOVI, "#galerija");
   });
@@ -94,8 +97,8 @@ function KonstrukcijaInstrumenata(instrumenti, kategorije, tipovi, imediva) {
   var ispis = "";
   instrumenti = Filter(instrumenti, ".tip", 'tip');
   instrumenti = Filter(instrumenti, ".kategorije", 'kategorija');
-  instrumenti = tekstFilter(instrumenti, "#instrumentsearch"); //instrumenti = cenaFilter(instrumenti, "#cena");
-
+  instrumenti = tekstFilter(instrumenti, "#instrumentsearch");
+  instrumenti = cenaFilter(instrumenti, "#cena");
   instrumenti = Sort(instrumenti, "#sort");
   var pageNumber = 1;
   var pageQuota = 0;
@@ -192,7 +195,6 @@ function Sort(instrumenti, sort) {
     sotiranniz = instrumenti.sort(function (x, y) {
       return x.cena - y.cena;
     });
-    console.log(instrumenti.cena['stara']);
   } else if (tipsort.val() == 'DESC') {
     sotiranniz = instrumenti.sort(function (x, y) {
       return y.cena - x.cena;
@@ -214,34 +216,10 @@ function Sort(instrumenti, sort) {
 
 function cenaFilter(instrumenti, imediva) {
   var cena = $(imediva).val();
-  var _iteratorNormalCompletion5 = true;
-  var _didIteratorError5 = false;
-  var _iteratorError5 = undefined;
-
-  try {
-    for (var _iterator5 = instrumenti[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
-      var inst = _step5.value;
-      console.log(inst.cena);
-    }
-  } catch (err) {
-    _didIteratorError5 = true;
-    _iteratorError5 = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion5 && _iterator5["return"] != null) {
-        _iterator5["return"]();
-      }
-    } finally {
-      if (_didIteratorError5) {
-        throw _iteratorError5;
-      }
-    }
-  }
-
   var filtriraniniz = instrumenti.filter(function (i) {
-    return i.cena;
+    return i.cena > cena;
   });
-  return instrumenti;
+  return filtriraniniz;
 }
 
 function Paginacija(nizinstrumenata) {

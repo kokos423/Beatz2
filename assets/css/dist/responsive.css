@@ -28,6 +28,12 @@
   #forma h2 {
     font-size: 27px;
   }
+  #korpaprikaz {
+    display: none;
+  }
+  #fonkorpa {
+    display: block;
+  }
 }
 @media only screen and (max-width: 427px) {
   #introtext h1 {
