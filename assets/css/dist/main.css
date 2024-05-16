@@ -203,3 +203,9 @@ footer a {
 #fonkorpa {
   display: none;
 }
+#biografija {
+  background-color: #e2e6e1;
+}
+#author #slikaaut {
+  padding: 0px !important;
+}
