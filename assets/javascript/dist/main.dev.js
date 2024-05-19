@@ -1,6 +1,6 @@
 "use strict";
 
-var linkovi = ["Products", "Newsletter", "Author"];
+var linkovi = ["products", "newsletter", "author"];
 var meni;
 meni = '<ul class="nav navbar-nav"><li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>';
 
