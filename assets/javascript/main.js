@@ -1,4 +1,4 @@
-var linkovi = ["Products", "Newsletter", "Author"];
+var linkovi = ["products", "newsletter", "author"];
 var meni;
 
 
